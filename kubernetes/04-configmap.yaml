@@ -8,5 +8,5 @@ data:
   NODE_ENV: "production"
   NEXT_PUBLIC_API_URL: "https://easyshop.wthffcj.shop/api"
   NEXTAUTH_URL: "https://easyshop.wthffcj.shop/"
-  NEXTAUTH_SECRET: "HmaFjYZ2jbUK7Ef+wZrBiJei4ZNGBAJ5IdiOGAyQegw="
+  NEXTAUTH_SECRET: "ICe/iHIRtDMUMf7HokuJ0Xn+H2fx0nVXjmI8GSS82IRh/e4rAqjJ9pVXW2Y="
   JWT_SECRET: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30"
