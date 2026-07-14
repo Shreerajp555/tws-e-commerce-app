@@ -2,28 +2,20 @@ data "aws_ami" "os_image" {
   owners = ["099720109477"]
   most_recent = true
   filter {
-    name   = "state"
-    values = ["available"]
-  }
-  filter {
-    name = "name"
+    name   = "name"
     values = ["ubuntu/images/hvm-ssd-gp3/*24.04-amd64*"]
   }
 }
 
 resource "aws_key_pair" "deployer" {
-  key_name   = "terra-automate-key"
+  key_name   = "terra-key"
   public_key = file("terra-key.pub")
 }
 
-resource "aws_default_vpc" "default" {
-
-}
-
 resource "aws_security_group" "allow_user_to_connect" {
-  name        = "allow TLS"
+  name        = "allow-user"
   description = "Allow user to connect"
-  vpc_id      = aws_default_vpc.default.id
+  vpc_id      = module.vpc.vpc_id
   ingress {
     description = "port 22 allow"
     from_port   = 22
@@ -71,9 +63,10 @@ resource "aws_security_group" "allow_user_to_connect" {
 
 resource "aws_instance" "testinstance" {
   ami             = data.aws_ami.os_image.id
-  instance_type   = var.instance_type 
+  instance_type   = var.instance_type
   key_name        = aws_key_pair.deployer.key_name
-  security_groups = [aws_security_group.allow_user_to_connect.name]
+  subnet_id       = module.vpc.public_subnets[0]
+  vpc_security_group_ids = [aws_security_group.allow_user_to_connect.id]
   user_data = file("${path.module}/install_tools.sh")
   tags = {
     Name = "Jenkins-Automate"
@@ -82,5 +75,7 @@ resource "aws_instance" "testinstance" {
     volume_size = 20
     volume_type = "gp3"
   }
-  
+
+  depends_on = [aws_key_pair.deployer]
+
 }
